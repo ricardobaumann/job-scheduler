@@ -1,4 +1,4 @@
-package com.github.ricardobaumann.jobservice
+package com.github.ricardobaumann.jobservice.services
 
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled

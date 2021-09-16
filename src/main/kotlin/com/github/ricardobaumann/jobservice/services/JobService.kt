@@ -1,5 +1,9 @@
-package com.github.ricardobaumann.jobservice
+package com.github.ricardobaumann.jobservice.services
 
+import com.github.ricardobaumann.jobservice.domain.ExecutionStatus
+import com.github.ricardobaumann.jobservice.domain.JobCreateCommand
+import com.github.ricardobaumann.jobservice.domain.JobEntity
+import com.github.ricardobaumann.jobservice.repos.JobRepo
 import org.springframework.scheduling.support.CronExpression
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime

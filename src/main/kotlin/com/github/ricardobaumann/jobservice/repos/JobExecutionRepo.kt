@@ -1,5 +1,6 @@
-package com.github.ricardobaumann.jobservice
+package com.github.ricardobaumann.jobservice.repos
 
+import com.github.ricardobaumann.jobservice.domain.JobExecutionEntity
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

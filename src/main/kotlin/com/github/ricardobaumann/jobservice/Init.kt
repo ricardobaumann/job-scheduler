@@ -1,6 +1,8 @@
 package com.github.ricardobaumann.jobservice
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.ricardobaumann.jobservice.domain.JobCreateCommand
+import com.github.ricardobaumann.jobservice.services.JobService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 

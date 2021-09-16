@@ -1,4 +1,4 @@
-package com.github.ricardobaumann.jobservice
+package com.github.ricardobaumann.jobservice.domain
 
 import org.hibernate.Hibernate
 import java.time.LocalDateTime

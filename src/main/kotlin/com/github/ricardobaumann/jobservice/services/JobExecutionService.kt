@@ -1,6 +1,10 @@
-package com.github.ricardobaumann.jobservice
+package com.github.ricardobaumann.jobservice.services
 
-import org.slf4j.LoggerFactory
+import com.github.ricardobaumann.jobservice.domain.ExecutionStatus
+import com.github.ricardobaumann.jobservice.domain.JobEntity
+import com.github.ricardobaumann.jobservice.domain.JobExecutionEntity
+import com.github.ricardobaumann.jobservice.domain.UpdateExecutionCommand
+import com.github.ricardobaumann.jobservice.repos.JobExecutionRepo
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -11,10 +15,6 @@ class JobExecutionService(
     private val jobService: JobService,
     private val jobExecutionRepo: JobExecutionRepo
 ) {
-
-    companion object {
-        private val log = LoggerFactory.getLogger(JobExecutionService::class.java)
-    }
 
     fun triggerExecutionFor(jobEntity: JobEntity) =
 
@@ -27,8 +27,9 @@ class JobExecutionService(
                 jobEntity = jobEntity
             )
         ).let {
-            jobEntity.lastStatus = it.executionStatus
-            jobService.updateExecution(jobEntity)
+            jobService.updateExecution(jobEntity.apply {
+                this.lastStatus = it.executionStatus
+            })
         }
 
     fun updateExecution(id: String, updateExecutionCommand: UpdateExecutionCommand) =
