@@ -16,12 +16,10 @@ class JobService(private val jobRepo: JobRepo) {
                 cronString = jobCreateCommand.cronString,
                 commandType = jobCreateCommand.commandType,
                 command = jobCreateCommand.command.toString(),
-                lastStatus = JobStatus.NONE,
+                lastStatus = ExecutionStatus.NONE,
                 nextExecution = getNextExecutionFor(jobCreateCommand.cronString)
             )
-        ).let {
-            JobCreateResult(it.id)
-        }
+        )
 
     private fun getNextExecutionFor(cronString: String) =
         CronExpression.parse(cronString).let {

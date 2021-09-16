@@ -2,25 +2,21 @@ package com.github.ricardobaumann.jobservice
 
 import org.hibernate.Hibernate
 import java.time.LocalDateTime
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
-data class JobEntity(
+data class JobExecutionEntity(
     @Id val id: String,
-    val name: String,
-    val cronString: String,
-    @Enumerated(EnumType.STRING) val commandType: CommandType,
-    val command: String,
-    var lastStatus: ExecutionStatus,
-    var nextExecution: LocalDateTime
+    @ManyToOne val jobEntity: JobEntity,
+    val startedAt: LocalDateTime,
+    var finishedAt: LocalDateTime? = null,
+    @Enumerated(EnumType.STRING) var executionStatus: ExecutionStatus,
+    var responsePayload: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
-        other as JobEntity
+        other as JobExecutionEntity
 
         return id == other.id
     }
