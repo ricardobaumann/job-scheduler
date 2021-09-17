@@ -24,7 +24,7 @@ class Init(
                     HttpCommand(
                         method = "POST",
                         url = "http://localhost:8080/jobs-client",
-                        operationName = "just do it",
+                        operationName = "just do it1",
                         body = objectMapper.createObjectNode(),
                         headers = mapOf(
                             "Content-Type" to "application/json",
@@ -34,6 +34,27 @@ class Init(
                 )
             )
         )
+
+        jobService.create(
+            JobCreateCommand(
+                cronString = "0/5 * * ? * *",
+                name = "test",
+                commandType = CommandType.HTTP,
+                command = objectMapper.valueToTree(
+                    HttpCommand(
+                        method = "POST",
+                        url = "http://localhost:8080/jobs-client",
+                        operationName = "just do it2",
+                        body = objectMapper.createObjectNode(),
+                        headers = mapOf(
+                            "Content-Type" to "application/json",
+                            "Accept" to "application/json"
+                        )
+                    )
+                )
+            )
+        )
+
 
 
         jobService.create(

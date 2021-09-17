@@ -15,15 +15,14 @@ class ScheduleService(
     private val scheduledMap = mutableMapOf<String, ScheduledFuture<*>?>()
 
     fun schedule(jobEntity: JobEntity) {
-        // we may cancel by building a map of job -> schedule result
-        val future = taskScheduler.schedule({
+        cancel(jobEntity)
+        scheduledMap[jobEntity.id] = taskScheduler.schedule({
             jobExecutionService.triggerExecutionFor(jobEntity)
         }, CronTrigger(jobEntity.cronString))
-        scheduledMap[jobEntity.id] = future
     }
 
     fun cancel(jobEntity: JobEntity) {
-        scheduledMap[jobEntity.id]?.also {
+        scheduledMap.remove(jobEntity.id)?.also {
             it.cancel(false)
         }
     }
