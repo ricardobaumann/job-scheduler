@@ -1,8 +1,8 @@
 package com.github.ricardobaumann.jobservice.domain
 
-import com.fasterxml.jackson.databind.node.ObjectNode
+import com.fasterxml.jackson.databind.JsonNode
 
 data class ExecutionResult(
     val executionStatus: ExecutionStatus,
-    val responsePayload: ObjectNode
+    val responsePayload: JsonNode?
 )

@@ -26,7 +26,10 @@ class CommandExecutionService(
         )
         log.info("Executing: {}", parsedCommand)
         return when (parsedCommand) {
-            is HttpCommand -> httpCommandService.execute(parsedCommand, executionCommand.executionId)
+            is HttpCommand -> httpCommandService.execute(
+                parsedCommand,
+                executionCommand.executionId
+            )
             else -> {
                 throw UnknownCommandException(executionCommand)
             }

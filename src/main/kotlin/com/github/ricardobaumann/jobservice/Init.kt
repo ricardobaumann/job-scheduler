@@ -23,8 +23,12 @@ class Init(
                     HttpCommand(
                         method = "POST",
                         url = "http://localhost:8080/jobs-client",
+                        operationName = "just do it",
                         body = objectMapper.createObjectNode(),
-                        headers = mapOf()
+                        headers = mapOf(
+                            "Content-Type" to "application/json",
+                            "Accept" to "application/json"
+                        )
                     )
                 )
             )
