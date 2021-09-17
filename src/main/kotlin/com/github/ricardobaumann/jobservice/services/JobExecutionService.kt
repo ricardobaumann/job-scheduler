@@ -12,7 +12,6 @@ import java.util.*
 
 @Service
 class JobExecutionService(
-    private val jobService: JobService,
     private val jobExecutionRepo: JobExecutionRepo,
     private val commandExecutionService: CommandExecutionService
 ) {
@@ -29,7 +28,7 @@ class JobExecutionService(
             )
         )
 
-        val jobExecutionEntity = jobExecutionRepo.save(
+        return jobExecutionRepo.save(
             JobExecutionEntity(
                 id = executionId,
                 startedAt = LocalDateTime.now(),
@@ -38,11 +37,6 @@ class JobExecutionService(
                 jobEntity = jobEntity
             )
         )
-        jobService.updateExecution(jobEntity.apply {
-            this.lastStatus = jobExecutionEntity.executionStatus
-        })
-
-        return jobExecutionEntity
     }
 
     fun updateExecution(id: String, updateExecutionCommand: UpdateExecutionCommand) =
@@ -52,10 +46,6 @@ class JobExecutionService(
                     this.responsePayload = updateExecutionCommand.responsePayload?.toString()
                     this.finishedAt = LocalDateTime.now()
                     this.executionStatus = updateExecutionCommand.executionStatus
-                })
-            }?.also { jobExecutionEntity ->
-                jobService.updateExecution(jobExecutionEntity.jobEntity.apply {
-                    this.lastStatus = jobExecutionEntity.executionStatus
                 })
             }
 

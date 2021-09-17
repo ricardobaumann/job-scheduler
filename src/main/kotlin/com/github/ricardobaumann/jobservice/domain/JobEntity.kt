@@ -1,7 +1,6 @@
 package com.github.ricardobaumann.jobservice.domain
 
 import org.hibernate.Hibernate
-import java.time.LocalDateTime
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -13,9 +12,7 @@ data class JobEntity(
     val name: String,
     val cronString: String,
     @Enumerated(EnumType.STRING) val commandType: CommandType,
-    val command: String,
-    @Enumerated(EnumType.STRING) var lastStatus: ExecutionStatus,
-    var nextExecution: LocalDateTime
+    val command: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

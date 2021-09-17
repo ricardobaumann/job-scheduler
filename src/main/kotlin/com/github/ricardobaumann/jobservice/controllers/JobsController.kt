@@ -15,4 +15,10 @@ class JobsController(private val jobService: JobService) {
     fun create(@RequestBody jobCreateCommand: JobCreateCommand) =
         JobCreateResult(jobService.create(jobCreateCommand).id)
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable id: String) {
+        jobService.delete(id)
+    }
+
 }

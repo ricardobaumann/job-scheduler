@@ -14,6 +14,7 @@ class Init(
     private val objectMapper: ObjectMapper
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
+        //TODO load jobs from database
         jobService.create(
             JobCreateCommand(
                 cronString = "0/5 * * ? * *",
@@ -24,6 +25,27 @@ class Init(
                         method = "POST",
                         url = "http://localhost:8080/jobs-client",
                         operationName = "just do it",
+                        body = objectMapper.createObjectNode(),
+                        headers = mapOf(
+                            "Content-Type" to "application/json",
+                            "Accept" to "application/json"
+                        )
+                    )
+                )
+            )
+        )
+
+
+        jobService.create(
+            JobCreateCommand(
+                cronString = "0/10 * * ? * *",
+                name = "second test",
+                commandType = CommandType.HTTP,
+                command = objectMapper.valueToTree(
+                    HttpCommand(
+                        method = "POST",
+                        url = "http://localhost:8080/jobs-client",
+                        operationName = "just do it again",
                         body = objectMapper.createObjectNode(),
                         headers = mapOf(
                             "Content-Type" to "application/json",
