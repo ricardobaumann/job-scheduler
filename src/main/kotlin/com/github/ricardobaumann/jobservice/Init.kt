@@ -1,6 +1,8 @@
 package com.github.ricardobaumann.jobservice
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.ricardobaumann.jobservice.domain.CommandType
+import com.github.ricardobaumann.jobservice.domain.HttpCommand
 import com.github.ricardobaumann.jobservice.domain.JobCreateCommand
 import com.github.ricardobaumann.jobservice.services.JobService
 import org.springframework.boot.CommandLineRunner
@@ -17,7 +19,14 @@ class Init(
                 cronString = "0/5 * * ? * *",
                 name = "test",
                 commandType = CommandType.HTTP,
-                command = objectMapper.createObjectNode()
+                command = objectMapper.valueToTree(
+                    HttpCommand(
+                        method = "POST",
+                        url = "http://localhost:8080/jobs-client",
+                        body = objectMapper.createObjectNode(),
+                        headers = mapOf()
+                    )
+                )
             )
         )
     }

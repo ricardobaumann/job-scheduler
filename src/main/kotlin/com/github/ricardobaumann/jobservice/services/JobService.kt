@@ -11,7 +11,10 @@ import java.util.*
 
 
 @Service
-class JobService(private val jobRepo: JobRepo) {
+class JobService(
+    private val jobRepo: JobRepo,
+    private val commandParseService: CommandParseService
+) {
     fun create(jobCreateCommand: JobCreateCommand) =
         jobRepo.save(
             JobEntity(
@@ -19,12 +22,15 @@ class JobService(private val jobRepo: JobRepo) {
                 name = jobCreateCommand.name,
                 cronString = jobCreateCommand.cronString,
                 commandType = jobCreateCommand.commandType,
-                command = jobCreateCommand.command.toString(),
+                command = commandParseService.validate(
+                    jobCreateCommand.commandType,
+                    jobCreateCommand.command
+                ),
                 lastStatus = ExecutionStatus.NONE,
                 nextExecution = getNextExecutionFor(jobCreateCommand.cronString)
             )
         )
-
+    
     private fun getNextExecutionFor(cronString: String) =
         CronExpression.parse(cronString).let {
             it.next(LocalDateTime.now())!!

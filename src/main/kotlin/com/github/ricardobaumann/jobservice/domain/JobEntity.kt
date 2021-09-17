@@ -14,7 +14,7 @@ data class JobEntity(
     val cronString: String,
     @Enumerated(EnumType.STRING) val commandType: CommandType,
     val command: String,
-    var lastStatus: ExecutionStatus,
+    @Enumerated(EnumType.STRING) var lastStatus: ExecutionStatus,
     var nextExecution: LocalDateTime
 ) {
     override fun equals(other: Any?): Boolean {

@@ -19,9 +19,10 @@ class JobScheduler(
     @Scheduled(cron = "*/1 * * * * *")
     fun poll() {
         val truncatedNow = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
-        log.info("Checking time table")
+        log.info("Checking time table {}", truncatedNow)
         jobService.findAll()
             .filter {
+                log.info("Checking: {}", it)
                 it.nextExecution.truncatedTo(ChronoUnit.SECONDS)
                     .isEqual(truncatedNow)
             }.forEach {
