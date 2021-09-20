@@ -22,5 +22,5 @@ data class JobEntity(
         return id == other.id
     }
 
-    override fun hashCode(): Int = 0
+    override fun hashCode(): Int = id.hashCode()
 }

@@ -15,7 +15,7 @@ end note
 [JobsService] --> [Keycloak]
 note bottom of [Keycloak]
     JobsService checks permission
-    for job CRUD
+    for job CRUD, and generate tokens for inter-service communication
 end note
 
 

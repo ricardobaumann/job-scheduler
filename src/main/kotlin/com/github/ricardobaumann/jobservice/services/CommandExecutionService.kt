@@ -19,7 +19,6 @@ class CommandExecutionService(
     }
 
     fun execute(executionCommand: ExecutionCommand): ExecutionResult {
-        log.info("Execution command: {}", executionCommand)
         val parsedCommand = commandParseService.parse(
             executionCommand.commandType,
             executionCommand.command
@@ -30,7 +29,7 @@ class CommandExecutionService(
                 parsedCommand,
                 executionCommand.executionId
             )
-            else -> {
+            else -> {// a more dynamic approach can be added later on
                 throw UnknownCommandException(executionCommand)
             }
         }

@@ -15,66 +15,27 @@ class Init(
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
         //TODO load jobs from database
-        jobService.create(
-            JobCreateCommand(
-                cronString = "0/5 * * ? * *",
-                name = "test",
-                commandType = CommandType.HTTP,
-                command = objectMapper.valueToTree(
-                    HttpCommand(
-                        method = "POST",
-                        url = "http://localhost:8080/jobs-client",
-                        operationName = "just do it1",
-                        body = objectMapper.createObjectNode(),
-                        headers = mapOf(
-                            "Content-Type" to "application/json",
-                            "Accept" to "application/json"
+
+        for (i in 0..200) {
+            jobService.create(
+                JobCreateCommand(
+                    cronString = "0/5 * * ? * *",
+                    name = "test_$i",
+                    commandType = CommandType.HTTP,
+                    command = objectMapper.valueToTree(
+                        HttpCommand(
+                            method = "POST",
+                            url = "http://localhost:8080/jobs-client",
+                            operationName = "just do it $i",
+                            body = objectMapper.createObjectNode(),
+                            headers = mapOf(
+                                "Content-Type" to "application/json",
+                                "Accept" to "application/json"
+                            )
                         )
                     )
                 )
             )
-        )
-
-        jobService.create(
-            JobCreateCommand(
-                cronString = "0/5 * * ? * *",
-                name = "test",
-                commandType = CommandType.HTTP,
-                command = objectMapper.valueToTree(
-                    HttpCommand(
-                        method = "POST",
-                        url = "http://localhost:8080/jobs-client",
-                        operationName = "just do it2",
-                        body = objectMapper.createObjectNode(),
-                        headers = mapOf(
-                            "Content-Type" to "application/json",
-                            "Accept" to "application/json"
-                        )
-                    )
-                )
-            )
-        )
-
-
-
-        jobService.create(
-            JobCreateCommand(
-                cronString = "0/10 * * ? * *",
-                name = "second test",
-                commandType = CommandType.HTTP,
-                command = objectMapper.valueToTree(
-                    HttpCommand(
-                        method = "POST",
-                        url = "http://localhost:8080/jobs-client",
-                        operationName = "just do it again",
-                        body = objectMapper.createObjectNode(),
-                        headers = mapOf(
-                            "Content-Type" to "application/json",
-                            "Accept" to "application/json"
-                        )
-                    )
-                )
-            )
-        )
+        }
     }
 }
