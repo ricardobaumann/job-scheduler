@@ -16,7 +16,7 @@ class JobExecutionController(private val jobExecutionService: JobExecutionServic
             ?.let {
                 UpdateExecutionResult(
                     it.executionStatus,
-                    it.finishedAt,
+                    it.updatedAt,
                     it.id
                 )
             }?.let {

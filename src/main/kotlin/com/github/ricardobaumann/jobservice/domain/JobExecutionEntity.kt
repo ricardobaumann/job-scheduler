@@ -9,7 +9,7 @@ data class JobExecutionEntity(
     @Id val id: String,
     @ManyToOne val jobEntity: JobEntity,
     val startedAt: LocalDateTime,
-    var finishedAt: LocalDateTime? = null,
+    var updatedAt: LocalDateTime? = null,
     @Enumerated(EnumType.STRING) var executionStatus: ExecutionStatus,
     var responsePayload: String? = null
 ) {

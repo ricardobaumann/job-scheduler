@@ -1,8 +1,11 @@
 package com.github.ricardobaumann.jobservice.services
 
-import com.github.ricardobaumann.jobservice.domain.*
-import com.github.ricardobaumann.jobservice.repos.ExecutionLogRepo
+import com.github.ricardobaumann.jobservice.domain.ExecutionCommand
+import com.github.ricardobaumann.jobservice.domain.JobEntity
+import com.github.ricardobaumann.jobservice.domain.JobExecutionEntity
+import com.github.ricardobaumann.jobservice.domain.UpdateExecutionCommand
 import com.github.ricardobaumann.jobservice.repos.JobExecutionRepo
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -11,13 +14,14 @@ import java.util.*
 @Service
 class JobExecutionService(
     private val jobExecutionRepo: JobExecutionRepo,
-    private val executionLogRepo: ExecutionLogRepo,
+    private val applicationEventPublisher: ApplicationEventPublisher,
     private val commandExecutionService: CommandExecutionService
 ) {
 
     fun triggerExecutionFor(jobEntity: JobEntity): JobExecutionEntity {
 
         val executionId = UUID.randomUUID().toString()
+        val startedAt = LocalDateTime.now()
         val executionResult = commandExecutionService.execute(
             ExecutionCommand(
                 executionId = executionId,
@@ -26,10 +30,11 @@ class JobExecutionService(
             )
         )
 
-        return jobExecutionRepo.save(
+        return save(
             JobExecutionEntity(
                 id = executionId,
-                startedAt = LocalDateTime.now(),
+                startedAt = startedAt,
+                updatedAt = LocalDateTime.now(),
                 executionStatus = executionResult.executionStatus,
                 responsePayload = executionResult.responsePayload.toString(),
                 jobEntity = jobEntity
@@ -40,20 +45,17 @@ class JobExecutionService(
     fun updateExecution(id: String, updateExecutionCommand: UpdateExecutionCommand) =
         jobExecutionRepo.findByIdOrNull(id)
             ?.let { jobExecutionEntity ->
-                jobExecutionRepo.save(jobExecutionEntity.apply {
+                save(jobExecutionEntity.apply {
                     this.responsePayload = updateExecutionCommand.responsePayload?.toString()
-                    this.finishedAt = LocalDateTime.now()
+                    this.updatedAt = LocalDateTime.now()
                     this.executionStatus = updateExecutionCommand.executionStatus
-                }).also {
-                    executionLogRepo.save(
-                        ExecutionLogEntity(
-                            id = UUID.randomUUID().toString(),
-                            jobExecutionEntity = it,
-                            executionStatus = it.executionStatus,
-                            responsePayload = it.responsePayload
-                        )
-                    )
-                }
+                })
+            }
+
+    private fun save(jobExecutionEntity: JobExecutionEntity) =
+        jobExecutionRepo.save(jobExecutionEntity)
+            .also {
+                applicationEventPublisher.publishEvent(it)
             }
 
 }
