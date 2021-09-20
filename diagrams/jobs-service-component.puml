@@ -1,0 +1,25 @@
+@startuml
+
+[JobsService] --> JobsDatabase
+note left of JobsDatabase
+    JobsService stores job info
+    on a centralized database
+end note
+
+[JobsService] --> [DomainService]
+note bottom of [DomainService]
+    DomainService endpoints are triggered
+    according to job definition
+end note
+
+[JobsService] --> [Keycloak]
+note bottom of [Keycloak]
+    JobsService checks permission
+    for job CRUD
+end note
+
+
+database JobsDatabase {
+}
+
+@enduml

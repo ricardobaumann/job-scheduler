@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+title: "Create Job Use Case\nSingle JobsService instance"
+
+autonumber
+
+actor User
+User -> JobsService: Create Job
+activate JobsService
+JobsService -> JobsService: Checks for "job scheduling"\npermission/role
+database JobsDatabase
+JobsService -> JobsDatabase: Store Job
+JobsService -> JobsService: Schedule Job
+
+
+@enduml

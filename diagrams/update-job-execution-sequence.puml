@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title: "Optional: Async Update Job execution"
+
+autonumber
+
+DomainService -> JobsService: Update JobExecution status
+note right
+    DomainService updates the job execution by
+    sending the JobExecutionId
+end note
+activate JobsService
+@enduml

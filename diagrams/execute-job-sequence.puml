@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+title: "Execute Scheduled Job"
+
+activate JobsService
+JobsService -> JobsService: Scheduled job is triggered
+database JobsDatabase
+JobsService -> JobsDatabase: Create JobExecution
+JobsService -> Keycloak: Create JobService token
+JobsService -> DomainService: Call DomainService endpoints
+
+note right
+    DomainService receives a payload with the JobService token
+    and the JobExecutionId for the callback
+end note
+
+JobsService -> JobsDatabase: Mark JobExecution as\n"Scheduled/Failed to be scheduled"\naccording to DomainService response
+
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title: "Update Job\nSingle JobsService instance"
+
+autonumber
+actor User
+User -> JobsService: Update Job
+activate JobsService
+JobsService -> JobsService: Checks for "Update Job" permission/role
+database JobsDatabase
+JobsService -> JobsDatabase: Update Job
+JobsService -> JobsService: Unschedule/Reschedule Job
+
+@enduml
