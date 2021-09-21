@@ -1,6 +1,6 @@
 package com.github.ricardobaumann.jobservice.listeners
 
-import com.github.ricardobaumann.jobservice.domain.JobExecutionEntity
+import com.github.ricardobaumann.jobservice.entities.JobExecutionEntity
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component

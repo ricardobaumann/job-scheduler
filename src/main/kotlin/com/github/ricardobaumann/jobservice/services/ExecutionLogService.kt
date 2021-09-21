@@ -1,7 +1,7 @@
 package com.github.ricardobaumann.jobservice.services
 
 import com.github.ricardobaumann.jobservice.domain.ExecutionLogEntity
-import com.github.ricardobaumann.jobservice.domain.JobExecutionEntity
+import com.github.ricardobaumann.jobservice.entities.JobExecutionEntity
 import com.github.ricardobaumann.jobservice.repos.ExecutionLogRepo
 import org.springframework.stereotype.Service
 import java.util.*

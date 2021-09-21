@@ -1,7 +1,7 @@
 package com.github.ricardobaumann.jobservice.services
 
 import com.github.ricardobaumann.jobservice.domain.JobCreateCommand
-import com.github.ricardobaumann.jobservice.domain.JobEntity
+import com.github.ricardobaumann.jobservice.entities.JobEntity
 import com.github.ricardobaumann.jobservice.exceptions.JobNotFoundException
 import com.github.ricardobaumann.jobservice.repos.JobRepo
 import org.springframework.data.repository.findByIdOrNull

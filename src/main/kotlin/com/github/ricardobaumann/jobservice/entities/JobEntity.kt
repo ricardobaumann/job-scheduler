@@ -1,5 +1,6 @@
-package com.github.ricardobaumann.jobservice.domain
+package com.github.ricardobaumann.jobservice.entities
 
+import com.github.ricardobaumann.jobservice.domain.CommandType
 import org.hibernate.Hibernate
 import javax.persistence.Entity
 import javax.persistence.EnumType

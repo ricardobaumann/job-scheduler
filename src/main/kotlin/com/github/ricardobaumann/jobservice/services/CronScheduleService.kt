@@ -1,6 +1,6 @@
 package com.github.ricardobaumann.jobservice.services
 
-import com.github.ricardobaumann.jobservice.domain.JobEntity
+import com.github.ricardobaumann.jobservice.entities.JobEntity
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.support.CronTrigger
 import org.springframework.stereotype.Service

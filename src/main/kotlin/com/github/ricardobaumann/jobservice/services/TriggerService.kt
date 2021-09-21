@@ -1,7 +1,7 @@
 package com.github.ricardobaumann.jobservice.services
 
 import com.github.ricardobaumann.jobservice.controllers.CreateTriggerCommand
-import com.github.ricardobaumann.jobservice.domain.JobTriggerEntity
+import com.github.ricardobaumann.jobservice.entities.JobTriggerEntity
 import com.github.ricardobaumann.jobservice.repos.TriggerRepo
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service

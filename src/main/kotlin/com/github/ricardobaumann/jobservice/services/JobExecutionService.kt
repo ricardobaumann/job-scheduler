@@ -1,9 +1,9 @@
 package com.github.ricardobaumann.jobservice.services
 
 import com.github.ricardobaumann.jobservice.domain.ExecutionCommand
-import com.github.ricardobaumann.jobservice.domain.JobEntity
-import com.github.ricardobaumann.jobservice.domain.JobExecutionEntity
 import com.github.ricardobaumann.jobservice.domain.UpdateExecutionCommand
+import com.github.ricardobaumann.jobservice.entities.JobEntity
+import com.github.ricardobaumann.jobservice.entities.JobExecutionEntity
 import com.github.ricardobaumann.jobservice.repos.JobExecutionRepo
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull

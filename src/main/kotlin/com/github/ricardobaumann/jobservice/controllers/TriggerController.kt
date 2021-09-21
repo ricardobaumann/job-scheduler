@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/triggers")
 class TriggerController(private val triggerService: TriggerService) {
-    
+
     @PostMapping
     fun create(@RequestBody createTriggerCommand: CreateTriggerCommand) =
         CreateTriggerResponse(id = triggerService.create(createTriggerCommand).id)
-
-
+    
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: String) {

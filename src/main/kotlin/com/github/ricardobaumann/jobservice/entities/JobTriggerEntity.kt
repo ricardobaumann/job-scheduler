@@ -1,5 +1,6 @@
-package com.github.ricardobaumann.jobservice.domain
+package com.github.ricardobaumann.jobservice.entities
 
+import com.github.ricardobaumann.jobservice.domain.ExecutionStatus
 import javax.persistence.*
 
 @Entity
@@ -10,5 +11,6 @@ data class JobTriggerEntity(
     @ManyToOne val triggeredBy: JobEntity?,
     @Enumerated(EnumType.STRING) val executionStatus: ExecutionStatus?
 ) {
+    @Transient
     fun isCronTriggered() = cronString != null
 }
