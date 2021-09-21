@@ -3,8 +3,12 @@ package com.github.ricardobaumann.jobservice.services
 import com.github.ricardobaumann.jobservice.controllers.CreateTriggerCommand
 import com.github.ricardobaumann.jobservice.entities.JobEntity
 import com.github.ricardobaumann.jobservice.entities.JobTriggerEntity
+import com.github.ricardobaumann.jobservice.listeners.EventType
+import com.github.ricardobaumann.jobservice.listeners.TriggerEvent
 import com.github.ricardobaumann.jobservice.repos.TriggerRepo
 import org.slf4j.LoggerFactory
+import org.springframework.context.ApplicationEventPublisher
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -12,14 +16,13 @@ import java.util.*
 class TriggerService(
     private val triggerRepo: TriggerRepo,
     private val jobService: JobService,
-    private val cronScheduleService: CronScheduleService
+    private val applicationEventPublisher: ApplicationEventPublisher
 ) {
     companion object {
         private val log = LoggerFactory.getLogger(TriggerService::class.java)
     }
 
     fun create(createTriggerCommand: CreateTriggerCommand) =
-        //TODO add validation
         triggerRepo.save(
             JobTriggerEntity(
                 id = UUID.randomUUID().toString(),
@@ -32,23 +35,26 @@ class TriggerService(
                 },
                 executionStatus = createTriggerCommand.triggeredOn
             )
-        ).also { jobTriggerEntity ->
-            jobTriggerEntity.takeIf { it.isCronTriggered() }
-                ?.also {
-                    log.info("Trigger {} is cron based. Will be scheduled internally", it)
-                    cronScheduleService.schedule(
-                        ScheduleTriggerCommand(
-                            triggerId = it.targetJob.id,
-                            cronString = it.cronString!!,
-                            jobEntity = it.targetJob
-                        )
-                    )
-                }
+        ).also {
+            applicationEventPublisher.publishEvent(
+                TriggerEvent(
+                    eventType = EventType.CREATED,
+                    triggerEntity = it
+                )
+            )
         }
 
     fun delete(id: String) {
-        triggerRepo.deleteById(id)
-        cronScheduleService.unschedule(id)
+        triggerRepo.findByIdOrNull(id)
+            ?.also {
+                triggerRepo.delete(it)
+                applicationEventPublisher.publishEvent(
+                    TriggerEvent(
+                        eventType = EventType.DELETED,
+                        triggerEntity = it
+                    )
+                )
+            }
     }
 
     fun findTriggeredBy(jobEntity: JobEntity) =

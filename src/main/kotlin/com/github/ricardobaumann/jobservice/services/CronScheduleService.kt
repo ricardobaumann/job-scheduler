@@ -15,7 +15,7 @@ class CronScheduleService(
 
     fun schedule(scheduleTriggerCommand: ScheduleTriggerCommand) {
         val triggerId = scheduleTriggerCommand.triggerId
-        remove(triggerId)
+        unschedule(triggerId)
         localScheduledTriggers[triggerId] = taskScheduler
             .schedule(
                 { jobExecutionService.triggerExecutionFor(scheduleTriggerCommand.jobEntity) },
@@ -24,10 +24,6 @@ class CronScheduleService(
     }
 
     fun unschedule(triggerId: String) {
-        remove(triggerId)
-    }
-
-    private fun remove(triggerId: String) {
         localScheduledTriggers.remove(triggerId)
             ?.also {
                 it.cancel(false)
