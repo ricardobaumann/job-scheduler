@@ -7,16 +7,28 @@ title: "Execute Scheduled Job"
 
 activate JobsService
 JobsService -> JobsService: Scheduled job is triggered
+note right of JobsService
+    Jobs can be triggered by
+    cron expressions,
+    or by other job events
+end note
 database JobsDatabase
 JobsService -> JobsDatabase: Create JobExecution
 JobsService -> Keycloak: Create JobService token
 JobsService -> DomainService: Call DomainService endpoints
 
 note right
-    DomainService receives a payload with the JobService token
-    and the JobExecutionId for the callback
+    DomainService receives a payload with
+    the JobService token
+    and the JobExecutionId
+    for the callback
 end note
 
-JobsService -> JobsDatabase: Mark JobExecution as\n"Scheduled/Failed to be scheduled"\naccording to DomainService response
+JobsService -> JobsDatabase: Update JobExecution
+
+note right of JobsService
+    Mark JobExecution as Scheduled/Failed
+    according to DomainService response
+end note
 
 @enduml

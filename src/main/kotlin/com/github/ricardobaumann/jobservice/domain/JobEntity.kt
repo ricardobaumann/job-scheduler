@@ -10,7 +10,6 @@ import javax.persistence.Id
 data class JobEntity(
     @Id val id: String,
     val name: String,
-    val cronString: String,
     @Enumerated(EnumType.STRING) val commandType: CommandType,
     val command: String
 ) {
