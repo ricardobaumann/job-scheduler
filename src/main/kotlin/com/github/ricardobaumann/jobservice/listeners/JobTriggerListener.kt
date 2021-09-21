@@ -33,6 +33,7 @@ class JobTriggerListener(private val cronScheduleService: CronScheduleService) {
                     }
             }
             EventType.DELETED -> {
+                log.info("Trigger {} will be removed from schedule", triggerEvent.triggerEntity)
                 cronScheduleService.unschedule(triggerEvent.triggerEntity.id)
             }
             else -> {

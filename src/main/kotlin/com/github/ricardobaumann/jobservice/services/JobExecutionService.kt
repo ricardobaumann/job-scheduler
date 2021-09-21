@@ -34,7 +34,6 @@ class JobExecutionService(
             JobExecutionEntity(
                 id = executionId,
                 startedAt = startedAt,
-                updatedAt = LocalDateTime.now(),
                 executionStatus = executionResult.executionStatus,
                 responsePayload = executionResult.responsePayload.toString(),
                 jobEntity = jobEntity
@@ -47,7 +46,6 @@ class JobExecutionService(
             ?.let { jobExecutionEntity ->
                 save(jobExecutionEntity.apply {
                     this.responsePayload = updateExecutionCommand.responsePayload?.toString()
-                    this.updatedAt = LocalDateTime.now()
                     this.executionStatus = updateExecutionCommand.executionStatus
                 })
             }

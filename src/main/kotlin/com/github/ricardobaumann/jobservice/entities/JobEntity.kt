@@ -2,16 +2,16 @@ package com.github.ricardobaumann.jobservice.entities
 
 import com.github.ricardobaumann.jobservice.domain.CommandType
 import org.hibernate.Hibernate
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Id
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import javax.persistence.*
 
 @Entity
+@EntityListeners(AuditingEntityListener::class)
 data class JobEntity(
     @Id val id: String,
     val name: String,
     @Enumerated(EnumType.STRING) val commandType: CommandType,
+    @Embedded val audit: Audit = Audit(),
     val command: String
 ) {
     override fun equals(other: Any?): Boolean {

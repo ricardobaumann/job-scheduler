@@ -36,6 +36,7 @@ class TriggerService(
                 executionStatus = createTriggerCommand.triggeredOn
             )
         ).also {
+            log.info("Trigger {} created successfully", it)
             applicationEventPublisher.publishEvent(
                 TriggerEvent(
                     eventType = EventType.CREATED,
