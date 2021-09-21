@@ -7,7 +7,7 @@ import javax.persistence.*
 data class JobTriggerEntity(
     @Id val id: String,
     val cronString: String?,
-    @ManyToOne val jobOwner: JobEntity,
+    @ManyToOne val targetJob: JobEntity,
     @ManyToOne val triggeredBy: JobEntity?,
     @Enumerated(EnumType.STRING) val executionStatus: ExecutionStatus?
 ) {

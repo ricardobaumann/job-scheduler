@@ -1,6 +1,7 @@
 package com.github.ricardobaumann.jobservice.services
 
 import com.github.ricardobaumann.jobservice.controllers.CreateTriggerCommand
+import com.github.ricardobaumann.jobservice.entities.JobEntity
 import com.github.ricardobaumann.jobservice.entities.JobTriggerEntity
 import com.github.ricardobaumann.jobservice.repos.TriggerRepo
 import org.slf4j.LoggerFactory
@@ -23,7 +24,7 @@ class TriggerService(
             JobTriggerEntity(
                 id = UUID.randomUUID().toString(),
                 cronString = createTriggerCommand.cronString,
-                jobOwner = createTriggerCommand.jobId.let {
+                targetJob = createTriggerCommand.jobId.let {
                     jobService.findByIdOrFail(it)
                 },
                 triggeredBy = createTriggerCommand.triggeredBy?.let {
@@ -37,9 +38,9 @@ class TriggerService(
                     log.info("Trigger {} is cron based. Will be scheduled internally", it)
                     cronScheduleService.schedule(
                         ScheduleTriggerCommand(
-                            triggerId = it.jobOwner.id,
+                            triggerId = it.targetJob.id,
                             cronString = it.cronString!!,
-                            jobEntity = it.jobOwner
+                            jobEntity = it.targetJob
                         )
                     )
                 }
@@ -49,6 +50,9 @@ class TriggerService(
         triggerRepo.deleteById(id)
         cronScheduleService.unschedule(id)
     }
+
+    fun findTriggeredBy(jobEntity: JobEntity) =
+        triggerRepo.findByTriggeredBy(jobEntity)
 
 
 }

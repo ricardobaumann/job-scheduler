@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+class JobEntity {
+    id: String
+    name: String
+    commandType: CommandType
+    command: String
+}
+
+class JobTriggerEntity {
+    id: String
+    cronString: String
+    jobOwner: JobEntity
+    triggeredBy: JobEntity
+    executionStatus: ExecutionStatus
+}
+
+class JobExecutionEntity {
+    id: String
+    jobEntity: JobEntity
+    startedAt: LocalDateTime
+    updatedAt: LocalDateTime
+    executionStatus: ExecutionStatus
+    responsePayload: String
+}
+
+class LogExecutionEntity {
+    id: String
+    jobExecutionEntity: JobExecutionEntity
+    receivedAt: LocalDateTime
+    executionStatus: ExecutionStatus
+    responsePayload: String
+}
+
+JobEntity "1" o-- "many" JobTriggerEntity
+JobEntity "1" o-- "many" JobExecutionEntity
+JobExecutionEntity "1" o-- "many" LogExecutionEntity
+
+@enduml

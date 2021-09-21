@@ -27,10 +27,9 @@ class JobService(
             )
         )
 
-    fun delete(jobId: String) =
-        UnsupportedOperationException("Not implemented")
-
-    fun findAll(): Iterable<JobEntity> = jobRepo.findAll()
+    fun delete(jobId: String) {
+        throw UnsupportedOperationException("Not implemented")
+    }
 
     fun findByIdOrFail(id: String) = jobRepo.findByIdOrNull(id) ?: throw JobNotFoundException(id)
 

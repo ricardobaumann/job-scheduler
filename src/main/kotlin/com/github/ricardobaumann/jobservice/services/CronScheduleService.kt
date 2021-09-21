@@ -11,12 +11,12 @@ class CronScheduleService(
     private val taskScheduler: TaskScheduler,
     private val jobExecutionService: JobExecutionService
 ) {
-    private val scheduledMap = mutableMapOf<String, ScheduledFuture<*>?>()
+    private val localScheduledTriggers = mutableMapOf<String, ScheduledFuture<*>?>()
 
     fun schedule(scheduleTriggerCommand: ScheduleTriggerCommand) {
         val triggerId = scheduleTriggerCommand.triggerId
         remove(triggerId)
-        scheduledMap[triggerId] = taskScheduler
+        localScheduledTriggers[triggerId] = taskScheduler
             .schedule(
                 { jobExecutionService.triggerExecutionFor(scheduleTriggerCommand.jobEntity) },
                 CronTrigger(scheduleTriggerCommand.cronString)
@@ -28,7 +28,7 @@ class CronScheduleService(
     }
 
     private fun remove(triggerId: String) {
-        scheduledMap.remove(triggerId)
+        localScheduledTriggers.remove(triggerId)
             ?.also {
                 it.cancel(false)
             }
