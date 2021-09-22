@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-job-triggers
+      author: ricardo.baumann
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: integer
+              - column:
+                  name: cron_string
+                  type: varchar(50)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_job_trigger_job
+                    references: jobs(id)
+                  name: target_job_id
+                  type: integer
+              - column:
+                  constraints:
+                    foreignKeyName: fk_job_trigger_triggered_by
+                    references: jobs(id)
+                  name: triggered_by_job_id
+                  type: integer
+              - column:
+                  name: execution_status
+                  type: varchar(50)
+
+              - column:
+                  name: created_by
+                  type: varchar(100)
+              - column:
+                  name: modified_by
+                  type: varchar(100)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: modified_at
+                  type: timestamp
+            tableName: job_executions
+        - createIndex:
+            columns:
+              - column:
+                  name: target_job_id
+            indexName: idx_job_trigger_target_job_id
+            tableName: triggers
+        - createIndex:
+            columns:
+              - column:
+                  name: triggered_by_job_id
+            indexName: idx_job_trigger_triggered_id
+            tableName: triggers

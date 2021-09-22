@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-initial-tables
+      author: ricardo.baumann
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: integer
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: varchar(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: command_type
+                  type: varchar(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: command
+                  type: varchar(500)
+
+              - column:
+                  name: created_by
+                  type: varchar(100)
+              - column:
+                  name: modified_by
+                  type: varchar(100)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: modified_at
+                  type: timestamp
+            tableName: job_entities
