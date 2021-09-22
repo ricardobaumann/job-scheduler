@@ -1,4 +1,4 @@
-package com.github.ricardobaumann.jobservice.listeners
+package com.github.ricardobaumann.jobservice.domain
 
 enum class EventType {
     CREATED, UPDATED, DELETED

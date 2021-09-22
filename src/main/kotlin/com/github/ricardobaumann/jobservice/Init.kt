@@ -9,10 +9,9 @@ import com.github.ricardobaumann.jobservice.services.JobService
 import com.github.ricardobaumann.jobservice.services.TriggerService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.http.HttpHeaders
-import org.springframework.stereotype.Component
 import java.util.*
 
-@Component
+
 class Init(
     private val jobService: JobService,
     private val objectMapper: ObjectMapper,
@@ -23,7 +22,7 @@ class Init(
 
         val auth = Base64.getEncoder().encodeToString("admin:admin".toByteArray())
 
-        for (i in 0..200) {
+        for (i in 0..100) {
             jobService.create(
                 JobCreateCommand(
                     name = "test_$i",

@@ -32,5 +32,6 @@ class JobService(
     }
 
     fun findByIdOrFail(id: String) = jobRepo.findByIdOrNull(id) ?: throw JobNotFoundException(id)
+    fun findAll() = jobRepo.findAll()
 
 }

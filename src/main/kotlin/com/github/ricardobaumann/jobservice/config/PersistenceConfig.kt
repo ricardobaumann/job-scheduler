@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.domain.AuditorAware
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+import org.springframework.security.core.context.SecurityContextHolder
 import java.util.*
 
 @Configuration
@@ -16,5 +17,8 @@ class PersistenceConfig {
 }
 
 class JobServiceAuditorProvider : AuditorAware<String> {
-    override fun getCurrentAuditor() = Optional.of("the-user")
+    override fun getCurrentAuditor(): Optional<String> =
+        Optional.of(SecurityContextHolder.getContext())
+            .map { it.authentication }
+            .map { it.name }
 }

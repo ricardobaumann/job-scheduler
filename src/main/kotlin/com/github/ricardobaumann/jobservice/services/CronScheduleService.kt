@@ -1,6 +1,7 @@
 package com.github.ricardobaumann.jobservice.services
 
 import com.github.ricardobaumann.jobservice.entities.JobEntity
+import org.slf4j.LoggerFactory
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.support.CronTrigger
 import org.springframework.stereotype.Service
@@ -11,6 +12,11 @@ class CronScheduleService(
     private val taskScheduler: TaskScheduler,
     private val jobExecutionService: JobExecutionService
 ) {
+
+    companion object {
+        private val log = LoggerFactory.getLogger(CronScheduleService::class.java)
+    }
+
     private val localScheduledTriggers = mutableMapOf<String, ScheduledFuture<*>?>()
 
     fun schedule(scheduleTriggerCommand: ScheduleTriggerCommand) {
@@ -26,6 +32,7 @@ class CronScheduleService(
     fun unschedule(triggerId: String) {
         localScheduledTriggers.remove(triggerId)
             ?.also {
+                log.info("Removing trigger {} from internal schedule", triggerId)
                 it.cancel(false)
             }
     }

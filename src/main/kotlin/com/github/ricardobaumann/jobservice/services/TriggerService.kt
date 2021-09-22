@@ -1,10 +1,10 @@
 package com.github.ricardobaumann.jobservice.services
 
 import com.github.ricardobaumann.jobservice.controllers.CreateTriggerCommand
+import com.github.ricardobaumann.jobservice.domain.EventType
+import com.github.ricardobaumann.jobservice.domain.TriggerEvent
 import com.github.ricardobaumann.jobservice.entities.JobEntity
 import com.github.ricardobaumann.jobservice.entities.JobTriggerEntity
-import com.github.ricardobaumann.jobservice.listeners.EventType
-import com.github.ricardobaumann.jobservice.listeners.TriggerEvent
 import com.github.ricardobaumann.jobservice.repos.TriggerRepo
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationEventPublisher

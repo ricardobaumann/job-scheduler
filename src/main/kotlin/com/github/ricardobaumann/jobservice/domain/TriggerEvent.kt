@@ -1,4 +1,4 @@
-package com.github.ricardobaumann.jobservice.listeners
+package com.github.ricardobaumann.jobservice.domain
 
 import com.github.ricardobaumann.jobservice.entities.JobTriggerEntity
 
