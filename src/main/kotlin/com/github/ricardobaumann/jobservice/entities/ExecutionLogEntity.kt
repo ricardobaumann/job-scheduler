@@ -5,11 +5,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import javax.persistence.*
 
 @Entity
+@Table(name = "execution_logs")
 @EntityListeners(AuditingEntityListener::class)
 data class ExecutionLogEntity(
     @Id val id: String,
-    @ManyToOne val jobExecutionEntity: JobExecutionEntity,
+    @JoinColumn(name = "execution_id") @ManyToOne val jobExecutionEntity: JobExecutionEntity,
     @Embedded val audit: Audit = Audit(),
-    val executionStatus: ExecutionStatus = ExecutionStatus.RUNNING,
-    val responsePayload: String? = null
+    @Column(name = "execution_status") val executionStatus: ExecutionStatus = ExecutionStatus.RUNNING,
+    @Column(name = "response_payload") val responsePayload: String? = null
 )

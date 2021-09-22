@@ -17,29 +17,29 @@ class JobTriggerListener(private val cronScheduleService: CronScheduleService) {
     @Async
     @EventListener
     fun handle(triggerEvent: TriggerEvent) {
-        val jobTriggerEntity = triggerEvent.triggerEntity
-        when (triggerEvent.eventType) {
-            EventType.CREATED -> {
-                jobTriggerEntity.takeIf { it.isCronTriggered() }
-                    ?.also {
-                        log.info("Trigger {} is cron based. Will be scheduled internally", it)
+        triggerEvent.triggerEntity
+            .takeIf { it.isCronTriggered() }
+            ?.also { triggerEntity ->
+                when (triggerEvent.eventType) {
+                    EventType.CREATED -> {
+                        log.info("Trigger {} is cron based. Will be scheduled internally", triggerEntity)
                         cronScheduleService.schedule(
                             ScheduleTriggerCommand(
-                                triggerId = it.targetJob.id,
-                                cronString = it.cronString!!,
-                                jobEntity = it.targetJob
+                                triggerId = triggerEntity.targetJob.id,
+                                cronString = triggerEntity.cronString!!,
+                                jobEntity = triggerEntity.targetJob
                             )
                         )
                     }
+                    EventType.DELETED -> {
+                        log.info("Trigger {} will be removed from schedule", triggerEvent.triggerEntity)
+                        cronScheduleService.unschedule(triggerEvent.triggerEntity.id)
+                    }
+                    else -> {
+                        log.info("Unhandled event type: {}", triggerEvent)
+                    }
+                }
             }
-            EventType.DELETED -> {
-                log.info("Trigger {} will be removed from schedule", triggerEvent.triggerEntity)
-                cronScheduleService.unschedule(triggerEvent.triggerEntity.id)
-            }
-            else -> {
-                log.info("Unhandled event type: {}", triggerEvent)
-            }
-        }
     }
 
 }

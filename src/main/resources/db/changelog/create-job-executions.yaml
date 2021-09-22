@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-job-executions
+      author: ricardo.baumann
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: varchar(100)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_job_execution_job
+                    references: jobs(id)
+                  name: job_id
+                  type: varchar(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: started_at
+                  type: timestamp
+              - column:
+                  name: response_payload
+                  type: varchar(1000)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: execution_status
+                  type: varchar(50)
+
+              - column:
+                  name: created_by
+                  type: varchar(100)
+              - column:
+                  name: modified_by
+                  type: varchar(100)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: modified_at
+                  type: timestamp
+            tableName: job_executions
+        - createIndex:
+            columns:
+              - column:
+                  name: job_id
+            indexName: idx_job_execution_job_id
+            tableName: job_executions

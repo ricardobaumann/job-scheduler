@@ -8,7 +8,9 @@ import com.github.ricardobaumann.jobservice.domain.JobCreateCommand
 import com.github.ricardobaumann.jobservice.services.JobService
 import com.github.ricardobaumann.jobservice.services.TriggerService
 import org.springframework.boot.CommandLineRunner
+import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class Init(
@@ -18,6 +20,8 @@ class Init(
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
         //TODO load jobs from database
+
+        val auth = Base64.getEncoder().encodeToString("admin:admin".toByteArray())
 
         for (i in 0..200) {
             jobService.create(
@@ -32,7 +36,8 @@ class Init(
                             body = objectMapper.createObjectNode(),
                             headers = mapOf(
                                 "Content-Type" to "application/json",
-                                "Accept" to "application/json"
+                                "Accept" to "application/json",
+                                HttpHeaders.AUTHORIZATION to auth
                             )
                         )
                     )

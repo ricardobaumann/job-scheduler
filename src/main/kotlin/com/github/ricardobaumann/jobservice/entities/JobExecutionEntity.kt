@@ -7,14 +7,15 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
+@Table(name = "job_executions")
 @EntityListeners(AuditingEntityListener::class)
 data class JobExecutionEntity(
     @Id val id: String,
-    @ManyToOne val jobEntity: JobEntity,
-    val startedAt: LocalDateTime,
+    @JoinColumn(name = "job_id") @ManyToOne val jobEntity: JobEntity,
+    @Column(name = "started_at") val startedAt: LocalDateTime,
     @Embedded val audit: Audit = Audit(),
-    @Enumerated(EnumType.STRING) var executionStatus: ExecutionStatus,
-    var responsePayload: String? = null
+    @Column(name = "execution_status") @Enumerated(EnumType.STRING) var executionStatus: ExecutionStatus,
+    @Column(name = "response_payload") var responsePayload: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -24,5 +25,5 @@ data class JobExecutionEntity(
         return id == other.id
     }
 
-    override fun hashCode(): Int = 0
+    override fun hashCode(): Int = id.hashCode()
 }

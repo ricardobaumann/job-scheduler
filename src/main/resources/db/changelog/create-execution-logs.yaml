@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-job-triggers
+      id: create-execution-logs
       author: ricardo.baumann
       changes:
         - createTable:
@@ -10,26 +10,20 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                   name: id
-                  type: integer
-              - column:
-                  name: cron_string
-                  type: varchar(50)
+                  type: varchar(100)
               - column:
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_job_trigger_job
-                    references: jobs(id)
-                  name: target_job_id
-                  type: integer
-              - column:
-                  constraints:
-                    foreignKeyName: fk_job_trigger_triggered_by
-                    references: jobs(id)
-                  name: triggered_by_job_id
-                  type: integer
+                    foreignKeyName: fk_log_execution
+                    references: job_executions(id)
+                  name: execution_id
+                  type: varchar(100)
               - column:
                   name: execution_status
                   type: varchar(50)
+              - column:
+                  name: response_payload
+                  type: varchar(1000)
 
               - column:
                   name: created_by
@@ -43,16 +37,10 @@ databaseChangeLog:
               - column:
                   name: modified_at
                   type: timestamp
-            tableName: job_executions
+            tableName: execution_logs
         - createIndex:
             columns:
               - column:
-                  name: target_job_id
-            indexName: idx_job_trigger_target_job_id
-            tableName: triggers
-        - createIndex:
-            columns:
-              - column:
-                  name: triggered_by_job_id
-            indexName: idx_job_trigger_triggered_id
-            tableName: triggers
+                  name: execution_id
+            indexName: idx_log_execution
+            tableName: execution_logs

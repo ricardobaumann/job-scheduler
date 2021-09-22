@@ -10,7 +10,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                   name: id
-                  type: integer
+                  type: varchar(100)
               - column:
                   constraints:
                     nullable: false
@@ -39,4 +39,4 @@ databaseChangeLog:
               - column:
                   name: modified_at
                   type: timestamp
-            tableName: job_entities
+            tableName: jobs

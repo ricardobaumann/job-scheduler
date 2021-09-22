@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/create-job-entities.yaml
+  - include:
+      file: db/changelog/create-job-executions.yaml
+  - include:
+      file: db/changelog/create-job-triggers.yaml
+  - include:
+      file: db/changelog/create-execution-logs.yaml
