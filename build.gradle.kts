@@ -27,14 +27,14 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
-
+    testImplementation("io.mockk:mockk:1.12.0")
     implementation(files("/home/ricardo/IdeaProjects/jobs-client/build/libs/jobs-client-1.0-SNAPSHOT.jar"))
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "16"
+        jvmTarget = "11"
     }
 }
 
